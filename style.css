@@ -1,7 +1,86 @@
+
+
+body{
+    display: grid;
+    grid-template-columns: 1fr 250px;
+
+    background-color: rgb(160, 158, 158);
+}
+
 table, th, td {
-    border: 1px solid black;
+    border: 3px solid rgb(59, 59, 59);
+
+    background-color: rgb(213, 213, 213);
+}
+
+table{
+    margin: 10px;
+    padding: 10px;
 }
 
 /* .d-none{
     display: none;
 } */
+
+#expenses{
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid rgb(59, 59, 59);
+    border-radius: 5px;
+
+    background-color: rgb(213, 213, 213);
+
+    grid-column: 1;
+
+    
+}
+
+#totals{
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid rgb(59, 59, 59);
+    border-radius: 5px;
+
+    background-color: rgb(213, 213, 213);
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#popup{
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid rgb(59, 59, 59);
+    border-radius: 5px;
+
+    background-color: rgb(213, 213, 213);
+
+    grid-row: 3;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#popup > *{
+    margin: 5px;
+}
+
+#add-button{
+    font-size: 50px;
+
+    margin: 10px;
+    padding: 10px;
+
+    border: 3px solid rgb(59, 59, 59);
+    border-radius: 5px;
+
+    background-color: rgb(213, 213, 213);
+}
+
+#popup > button{
+    grid-column: span 2;
+    height: 40px;
+}
+

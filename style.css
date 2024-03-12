@@ -18,9 +18,11 @@ table{
     padding: 10px;
 }
 
-/* .d-none{
-    display: none;
-} */
+td{
+    padding: 5px;
+
+    text-align: center;
+}
 
 #expenses{
     margin: 10px;
@@ -63,6 +65,15 @@ table{
     grid-template-columns: 1fr 1fr;
 }
 
+input{
+    border: 1px solid rgb(213, 213, 213);
+    border-radius: 15px;
+
+    height: 25px;
+
+    text-align: center;
+}
+
 #popup > *{
     margin: 5px;
 }
@@ -80,7 +91,30 @@ table{
 }
 
 #popup > button{
+    border: 1px solid rgb(213, 213, 213);
+    border-radius: 15px;
+
+    text-align: center;
+
     grid-column: span 2;
     height: 40px;
 }
 
+#popup > button:hover{
+    border: 3px solid rgb(72, 72, 72);
+}
+
+
+.d-none{
+    display: none;
+}
+
+@media only screen and (max-width: 800px) {
+    body{
+        grid-template-columns: 1fr;
+    }
+    #totals{
+        grid-column: 1;
+        grid-row: 2;
+    }
+  }

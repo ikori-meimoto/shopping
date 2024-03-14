@@ -3,6 +3,7 @@
 body{
     display: grid;
     grid-template-columns: 1fr 250px;
+    grid-template-rows: 1fr 1fr;
 
     background-color: rgb(160, 158, 158);
 }

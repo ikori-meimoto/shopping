@@ -7,6 +7,7 @@ var snapTotal = 0;
 var nonSnapTotal = 0;
 
 var showPopup = document.getElementById("add-button"); // add button at bottom of the screen
+var removeButton = document.getElementById("remove-button"); // grab the remove button on the screen
 var addItemButton = document.getElementById("add-item"); // add item button to list
 var popupElement = document.getElementById("popup"); // grab the popup element
 
@@ -129,19 +130,48 @@ function updateCheckboxes(){
 
     for(let i=0; i<spanElementArr.length; i++){
         // Add the class back to the checkboxes so it can look the way it's supposed to
+        console.log("")
         spanElementArr[i].classList.add("material-symbols-outlined");
 
         // if clicked, toggles between a checked box and not checked box
         spanElementArr[i].addEventListener("click", function (){
             if(this.innerText == "check_box"){
+                console.log("This element has a check: " + spanElemetArr[i])
                 this.innerText = "check_box_outline_blank"
             }
             else{
+                console.log("This element does not have a check: " + spanElemetArr[i])
                 this.innerText = "check_box"
             }
         })
     }
 }
 
+function removeItemsChecked(){
+    console.log("removeItemsChecked() was called...")
+
+    let table = document.getElementById("table");
+    const removeRowsTable = [];
+    console.log(table);
+
+    for(let i=0; i<table.rows.length; i++){
+        var checkBoxCell = table.rows[i].cells[7];
+        console.log("checkBoxCell: " + checkBoxCell);
+        console.log("it's innerText is: " + checkBoxCell.innerText);
+        if(checkBoxCell.innerText == "check_box"){
+            console.log("Row "+i+" was checked and was pushed to the remove stack");
+            removeRowsTable.push(i);
+        }
+    }
+
+    console.log(removeRowsTable);
+
+    for(let i=0; i<removeRowsTable.length; i++){
+        table.rows[removeRowsTable[i]].remove();
+        console.log("Row "+removeRowsTable[i]+" has been removed from the list");
+    }
+}
+
 showPopup.addEventListener("click", openPopup);
 addItemButton.addEventListener("click", addItemToTable);
+removeButton.addEventListener("click", removeItemsChecked);

@@ -1,5 +1,6 @@
 let TRUE = "true";
 let FALSE = "false";
+let ZERO_VALUE = "0";
 
 var overallTotal = 0;
 var snapTotal = 0;
@@ -14,6 +15,7 @@ var total_overall = document.getElementById("totals-overall");
 var total_snap = document.getElementById("totals-snap");
 var total_non = document.getElementById("totals-non");
 
+
 const item = {
     name: "",
     required: FALSE,
@@ -25,19 +27,20 @@ const item = {
 }
 
 function openPopup(){
+    console.log("openPopup() was called...");
     popupElement.classList.remove("d-none");
     showPopup.classList.add("d-none");
-    console.log("Popup was opened!");
-
 }
 
 function closePopup(){
+    console.log("closePopup() was called...");
     popupElement.classList.add("d-none");
     showPopup.classList.remove("d-none");
-    console.log("Popup was closed");
 }
 
 function addItemToTable(){
+    console.log("addItemToTable() was called...");
+
     createItemObject();
     closePopup();
 
@@ -52,6 +55,7 @@ function addItemToTable(){
     let data_qu = row.insertCell(4);
     let data_total_1 = row.insertCell(5);
     let data_total_2 = row.insertCell(6);
+    let done = row.insertCell(7);
 
     data_item.innerText = item.name;
     data_required.innerText = item.required;
@@ -61,15 +65,20 @@ function addItemToTable(){
 
     if(item.snap = TRUE){
         data_total_2.innerText = item.total_snap;
-        data_total_1.innerText = "$0.00";
+        data_total_1.innerText = ZERO_VALUE;
     }
     else{
         data_total_1.innerText = item.total_item;
-        data_total_2.innerText = "$0.00";
+        data_total_2.innerText = ZERO_VALUE;
     }
+
+    done.innerHTML = "<span> check_box_outline_blank </span>"
+    updateCheckboxes();
 }
 
 function createItemObject(){
+    console.log("createItemObject() was called...");
+
     item.name = document.getElementById("item").value;
     item.price = document.getElementById("price").value;
     item.quantity = document.getElementById("quantity").value;
@@ -111,6 +120,27 @@ function updateTotal(){
     total_overall.innerText = "Overall Total: $" + overallTotal;
     total_snap.innerText = "SNAP Total: $" + snapTotal;
     total_non.innerText = "Non-SNAP Total: $" + nonSnapTotal;
+}
+
+function updateCheckboxes(){
+    console.log("updateCheckboxes() was called...")
+
+    var spanElementArr = document.getElementsByTagName("span");
+
+    for(let i=0; i<spanElementArr.length; i++){
+        // Add the class back to the checkboxes so it can look the way it's supposed to
+        spanElementArr[i].classList.add("material-symbols-outlined");
+
+        // if clicked, toggles between a checked box and not checked box
+        spanElementArr[i].addEventListener("click", function (){
+            if(this.innerText == "check_box"){
+                this.innerText = "check_box_outline_blank"
+            }
+            else{
+                this.innerText = "check_box"
+            }
+        })
+    }
 }
 
 showPopup.addEventListener("click", openPopup);

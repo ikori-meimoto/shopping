@@ -2,6 +2,7 @@ let TRUE = "true";
 let FALSE = "false";
 let ZERO_VALUE = "0";
 
+var j = 0;
 var overallTotal = 0;
 var snapTotal = 0;
 var nonSnapTotal = 0;
@@ -74,7 +75,7 @@ function addItemToTable(){
     }
 
     done.innerHTML = "<span> check_box_outline_blank </span>"
-    updateCheckboxes();
+    // updateCheckboxes();
 }
 
 function createItemObject(){
@@ -123,29 +124,46 @@ function updateTotal(){
     total_non.innerText = "Non-SNAP Total: $" + nonSnapTotal;
 }
 
-function updateCheckboxes(){
-    console.log("updateCheckboxes() was called...")
+// function updateCheckboxes(){
+//     console.log("=======================================")
+//     console.log("updateCheckboxes() was called...")
 
-    var spanElementArr = document.getElementsByTagName("span");
+//     var spanElementArr = document.getElementsByTagName("span");
 
-    for(let i=0; i<spanElementArr.length; i++){
-        // Add the class back to the checkboxes so it can look the way it's supposed to
-        console.log("")
-        spanElementArr[i].classList.add("material-symbols-outlined");
+//     for(let i=0; i<spanElementArr.length; ++i){
+//         console.log("Checkboxes For Loop Iteration: " + i);
+        
+//         if(i==0){
+//             spanElementArr[i].classList.add("eventListened");
+//         }
 
-        // if clicked, toggles between a checked box and not checked box
-        spanElementArr[i].addEventListener("click", function (){
-            if(this.innerText == "check_box"){
-                console.log("This element has a check: " + spanElemetArr[i])
-                this.innerText = "check_box_outline_blank"
-            }
-            else{
-                console.log("This element does not have a check: " + spanElemetArr[i])
-                this.innerText = "check_box"
-            }
-        })
-    }
-}
+//         if(spanElementArr[i].classList.contains("eventListened")){
+//             spanElementArr[i].classList.add("material-symbols-outlined");
+//             console.log("ClassList contains eventListened Checkbox Row " + i + ": " + spanElementArr[i].classList);
+//         }
+//         else{
+//             // Add the class back to the checkboxes so it can look the way it's supposed to
+//             spanElementArr[i].classList.add("material-symbols-outlined");
+
+//             // if clicked, toggles between a checked box and not checked box
+//             spanElementArr[i].addEventListener("click", function (){
+//                 console.log("ClassList does not contain eventListened Checkbox Row " + i);
+//                 console.log("Added eventListener to Checkbox row: " + i);
+//                 // if(this.innerText == "check_box"){
+//                 //     console.log("This element has a check: Row " + i);
+//                 //     this.innerText = "check_box_outline_blank";
+//                 // }
+//                 // else{
+//                 //     console.log("This element does not have a check: Row " + i);
+//                 //     this.innerText = "check_box";
+//                 // }
+//                 alert("click"+i);
+//                 console.log("ClassList for Row"+i+": " + spanElementArr[i].classList);
+//                 spanElementArr[i].classList.add("eventListened");
+//             });
+//         }
+//     }
+// }
 
 function removeItemsChecked(){
     console.log("removeItemsChecked() was called...")

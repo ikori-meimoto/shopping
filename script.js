@@ -1,10 +1,18 @@
 let TRUE = "true";
 let FALSE = "false";
 
+var overallTotal = 0;
+var snapTotal = 0;
+var nonSnapTotal = 0;
+
 var showPopup = document.getElementById("add-button"); // add button at bottom of the screen
 var addItemButton = document.getElementById("add-item"); // add item button to list
-
 var popupElement = document.getElementById("popup"); // grab the popup element
+
+// grab h3 elements to update totals onscreen
+var total_overall = document.getElementById("totals-overall");
+var total_snap = document.getElementById("totals-snap");
+var total_non = document.getElementById("totals-non");
 
 const item = {
     name: "",
@@ -69,37 +77,40 @@ function createItemObject(){
     item.total_item = item.price * item.quantity;
     item.total_snap = item.total_item;
 
-    item.required = document.getElementById("required").value;
-    item.snap = document.getElementById("snap-eligible").value;
+    item.required = document.getElementById("required").checked;
+    item.snap = document.getElementById("snap-eligible").checked;
 
-    console.log(item.required);
-    console.log(item.snap);
+    overallTotal += item.total_item;
 
-    if(item.required = "on"){
-        item.required = TRUE;
+    if(item.snap == true){
+        snapTotal += item.total_snap;
+        console.log("This item is snap");
     }
     else{
-        item.required = FALSE;
+        nonSnapTotal += item.total_item;
+        console.log("This item is not snap");
     }
 
-    if(item.snap = "on"){
-        item.snap = TRUE;
-    }
-    else{
-        item.snap = FALSE;
-    }
-
+    updateTotal();
     toConsole();
 }
 
 function toConsole(){
-    console.log("item.name: " + item.name);
-    console.log("item.required: " + item.required);
-    console.log("item.snap: " + item.snap);
-    console.log("item.price: " + item.price);
-    console.log("item.quantity: " + item.quantity);
-    console.log("item.total_item: " + item.total_item);
-    console.log("item.total_snap: " + item.total_snap);
+    console.log("toConsole() was called...");
+
+    console.log(item);
+
+    console.log("overallTotal: " + overallTotal);
+    console.log("snapTotal: " + snapTotal);
+    console.log("nonTotal: " + nonSnapTotal);
+}
+
+function updateTotal(){
+    console.log("updateTotal() was called...");
+
+    total_overall.innerText = "Overall Total: $" + overallTotal;
+    total_snap.innerText = "SNAP Total: $" + snapTotal;
+    total_non.innerText = "Non-SNAP Total: $" + nonSnapTotal;
 }
 
 showPopup.addEventListener("click", openPopup);

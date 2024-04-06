@@ -106,7 +106,15 @@ function createItemObject(){ // Allowed to use the item object
         console.log("This item is not snap");
     }
 
-    clientItems.set(itemsCounter, item);
+    clientItems.set(itemsCounter, {
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        total_item: item.total_item,
+        total_snap: item.total_snap,
+        required: item.required,
+        snap: item.snap
+    });
 
     updateTotal();
     itemToConsole(itemsCounter);
@@ -156,26 +164,26 @@ function openRemovePopup(){
     removeButton.classList.add("d-none");
 }
 
-function removeItems(){
+function removeItems(key){
     console.log("removeItemsChecked() was called...");
     removeButton.classList.remove("d-none");
     removePopup.classList.add("d-none");
 
     console.log(clientItems);
+    itemToConsole(1);
     let table = document.getElementById("table");
-    var key = document.getElementById("key").value;
-    var currentItem = clientItems.get(key);
-    var isGone = clientItems.delete(key);
+    let removeItem = clientItems.get(1);
+    console.log(`Calling ${removeItem} for editing and removal.`);
+    let isGone = clientItems.delete(1);
 
-    console.log(`Calling ${currentItem} for editing and removal.`);
     console.log(`Also calling ${table} for editing and removal.`);
 
     if(isGone){
-        console.log(`Successfully deleted [${currentItem.name}]`);
-        table.deleteRow(key);
-        console.log(`Successfully deleted row ${key}.`);
+        console.log(`Successfully deleted [${removeItem.name}]`);
+        table.deleteRow(1);
+        console.log(`Successfully deleted row ${1}.`);
     } else {
-        console.log(`Removal of item on row ${key} failed. Wrong row number?`);
+        console.log(`Removal of item on row ${1} failed. Wrong row number?`);
     }
 
     updateTotal();

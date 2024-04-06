@@ -3,6 +3,7 @@ let FALSE = "false";
 let ZERO_VALUE = "0";
 
 var j = 0;
+var itemsCounter = 1;
 var overallTotal = 0;
 var snapTotal = 0;
 var nonSnapTotal = 0;
@@ -11,6 +12,8 @@ var showPopup = document.getElementById("add-button"); // add button at bottom o
 var removeButton = document.getElementById("remove-button"); // grab the remove button on the screen
 var addItemButton = document.getElementById("add-item"); // add item button to list
 var popupElement = document.getElementById("popup"); // grab the popup element
+var removePopup = document.getElementById("remove-input");
+var removeItemButton = document.getElementById("closeRemovePopupBtn");
 
 // grab h3 elements to update totals onscreen
 var total_overall = document.getElementById("totals-overall");
@@ -27,6 +30,8 @@ const item = {
     total_item: 0,
     total_snap: 0
 }
+
+const clientItems = new Map([]);
 
 function openPopup(){
     console.log("openPopup() was called...");
@@ -75,10 +80,9 @@ function addItemToTable(){
     }
 
     done.innerHTML = "<span> check_box_outline_blank </span>"
-    updateCheckboxes();
 }
 
-function createItemObject(){
+function createItemObject(){ // Allowed to use the item object
     console.log("createItemObject() was called...");
 
     item.name = document.getElementById("item").value;
@@ -102,14 +106,17 @@ function createItemObject(){
         console.log("This item is not snap");
     }
 
+    clientItems.set(itemsCounter, item);
+
     updateTotal();
-    toConsole();
+    itemToConsole(itemsCounter);
+    itemsCounter++;
 }
 
-function toConsole(){
-    console.log("toConsole() was called...");
-
-    console.log(item);
+function itemToConsole(key){
+    console.log("toConsole() was called with key [" + key + "]");
+    let currentItem = clientItems.get(key);
+    console.log(`Calling ${currentItem} to console.`);
 
     console.log("overallTotal: " + overallTotal);
     console.log("snapTotal: " + snapTotal);
@@ -119,43 +126,62 @@ function toConsole(){
 function updateTotal(){
     console.log("updateTotal() was called...");
 
+    overallTotal = 0;
+    snapTotal = 0;
+    nonSnapTotal = 0;
+
+    console.log(clientItems);
+
+    for(var i=1; i<=clientItems.size; i++){
+        var indexItem = clientItems.get(i);
+        console.log(indexItem);
+
+        overallTotal += indexItem.total_item;
+        if(indexItem.snap = TRUE){
+            snapTotal += indexItem.total_snap; 
+        }
+        else{
+            nonSnapTotal += indexItem.total_item;
+        }       
+    }
+
     total_overall.innerText = "Overall Total: $" + overallTotal;
     total_snap.innerText = "SNAP Total: $" + snapTotal;
     total_non.innerText = "Non-SNAP Total: $" + nonSnapTotal;
 }
 
-function updateCheckboxes(element){
-    console.log("=======================================")
-    console.log("updateCheckboxes() was called...")
-
-
+function openRemovePopup(){
+    console.log("openRemovePopup() was called...");
+    removePopup.classList.remove("d-none");
+    removeButton.classList.add("d-none");
 }
 
-function removeItemsChecked(){
-    console.log("removeItemsChecked() was called...")
+function removeItems(){
+    console.log("removeItemsChecked() was called...");
+    removeButton.classList.remove("d-none");
+    removePopup.classList.add("d-none");
 
+    console.log(clientItems);
     let table = document.getElementById("table");
-    const removeRowsTable = [];
-    console.log(table);
+    var key = document.getElementById("key").value;
+    var currentItem = clientItems.get(key);
+    var isGone = clientItems.delete(key);
 
-    for(let i=0; i<table.rows.length; i++){
-        var checkBoxCell = table.rows[i].cells[7];
-        console.log("checkBoxCell: " + checkBoxCell);
-        console.log("it's innerText is: " + checkBoxCell.innerText);
-        if(checkBoxCell.innerText == "check_box"){
-            console.log("Row "+i+" was checked and was pushed to the remove stack");
-            removeRowsTable.push(i);
-        }
+    console.log(`Calling ${currentItem} for editing and removal.`);
+    console.log(`Also calling ${table} for editing and removal.`);
+
+    if(isGone){
+        console.log(`Successfully deleted [${currentItem.name}]`);
+        table.deleteRow(key);
+        console.log(`Successfully deleted row ${key}.`);
+    } else {
+        console.log(`Removal of item on row ${key} failed. Wrong row number?`);
     }
 
-    console.log(removeRowsTable);
-
-    for(let i=0; i<removeRowsTable.length; i++){
-        table.rows[removeRowsTable[i]].remove();
-        console.log("Row "+removeRowsTable[i]+" has been removed from the list");
-    }
+    updateTotal();
 }
 
 showPopup.addEventListener("click", openPopup);
 addItemButton.addEventListener("click", addItemToTable);
-removeButton.addEventListener("click", removeItemsChecked);
+removeButton.addEventListener("click", openRemovePopup);
+removeItemButton.addEventListener("click", removeItems);

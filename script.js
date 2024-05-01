@@ -188,32 +188,32 @@ function openRemovePopup() {
 }
 
 // REMOVE ITEM ASSOCIATED WITH KEY FROM MAP AND TABLE
-function removeItems(key) {
-  console.log("removeItemsChecked() was called...");
-  removeButton.classList.remove("d-none"); // show remove btn
-  addButton.classList.remove("d-none"); // show add btn
-  removePopup.classList.add("d-none"); // hide remove popup
+// function removeItems(key) {
+//   console.log("removeItemsChecked() was called...");
+//   removeButton.classList.remove("d-none"); // show remove btn
+//   addButton.classList.remove("d-none"); // show add btn
+//   removePopup.classList.add("d-none"); // hide remove popup
 
-  console.log(clientItems); // show me the map
-  itemToConsole(key); // show me the item the key returns
+//   console.log(clientItems); // show me the map
+//   itemToConsole(key); // show me the item the key returns
 
-  let table = document.getElementById("table"); // grab the table so we can edit it
-  let removeItem = clientItems.get(key); // this is the item we're removing
-  console.log(`Calling ${removeItem} for editing and removal.`);
-  let isGone = clientItems.delete(key); // DELETE IT -- returns true or false if it actually deleted
+//   let table = document.getElementById("table"); // grab the table so we can edit it
+//   let removeItem = clientItems.get(key); // this is the item we're removing
+//   console.log(`Calling ${removeItem} for editing and removal.`);
+//   let isGone = clientItems.delete(key); // DELETE IT -- returns true or false if it actually deleted
 
-  console.log(`Also calling ${table} for editing and removal.`);
+//   console.log(`Also calling ${table} for editing and removal.`);
 
-  if (isGone == true) {
-    console.log(`Successfully deleted [${removeItem.name}]`);
-    table.deleteRow(key+1); // DELETE THE ROW WITH THE ITEM IN IT
-    console.log(`Successfully deleted row ${key}.`);
-  } else {
-    console.log(`Removal of item on row ${key} failed. Wrong row number?`);
-  }
+//   if (isGone == true) {
+//     console.log(`Successfully deleted [${removeItem.name}]`);
+//     table.deleteRow(key+1); // DELETE THE ROW WITH THE ITEM IN IT
+//     console.log(`Successfully deleted row ${key}.`);
+//   } else {
+//     console.log(`Removal of item on row ${key} failed. Wrong row number?`);
+//   }
 
-  updateTotal(); // Make sure the totals reflect the removed item
-}
+//   updateTotal(); // Make sure the totals reflect the removed item
+// }
 
 // GRAB THE MOST EXPENSIVE ITEM
 function expensiveItems() {
@@ -240,6 +240,6 @@ function expensiveItems() {
 
 addButton.addEventListener("click", openPopup);
 addItemButton.addEventListener("click", addItemToTable);
-removeButton.addEventListener("click", openRemovePopup);
-removeItemButton.addEventListener("click", removeItems);
+// removeButton.addEventListener("click", openRemovePopup);
+// removeItemButton.addEventListener("click", removeItems);
 

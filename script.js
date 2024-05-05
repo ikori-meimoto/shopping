@@ -19,7 +19,7 @@ var removeItemButton = document.getElementById("closeRemovePopupBtn"); // the RE
 // div elements
 var addPopup = document.getElementById("popup"); // the ADD POPUP DIV
 var removePopup = document.getElementById("remove-input"); // the REMOVE POPUP DIV
-var expenseListContainer = document.getElementById("expenses-list"); // the 
+var expenseListContainer = document.getElementById("expenses-list"); // the
 
 // totals elements
 var overallTotalElement = document.getElementById("totals-overall");
@@ -27,15 +27,15 @@ var snapTotalElement = document.getElementById("totals-snap");
 var nonSnapTotalElement = document.getElementById("totals-non");
 
 // Object template for all items
-const item = {
-  name: "",
-  required: FALSE,
-  snap: FALSE,
-  price: 0.0,
-  quantity: 0,
-  total_item: 0,
-  total_snap: 0,
-};
+// const item = {
+//   name: "",
+//   required: FALSE,
+//   snap: FALSE,
+//   price: 0.0,
+//   quantity: 0,
+//   total_item: 0,
+//   total_snap: 0,
+// };
 
 // List to store items
 const clientItems = new Map([]);
@@ -62,7 +62,21 @@ function closePopup() {
 function addItemToTable() {
   console.log("addItemToTable() was called...");
 
-  createItemObject();
+  var item = {
+    name: document.getElementById("item").value,
+    required: document.getElementById("required").checked,
+    snap: document.getElementById("snap-eligible").checked,
+    price: document.getElementById("price").value,
+    quantity: document.getElementById("quantity").value,
+    total_item:
+      document.getElementById("price").value *
+      document.getElementById("quantity").value,
+    total_snap:
+      document.getElementById("price").value *
+      document.getElementById("quantity").value,
+  };
+
+  createItemObject(item);
   expensiveItems();
   closePopup();
 
@@ -94,28 +108,8 @@ function addItemToTable() {
 }
 
 // GRAB VALUES FROM FORM AND ASSIGN THEM TO CORRESPONDING ITEM OBJECT VALUES
-function createItemObject() {
+function createItemObject(item) {
   console.log("createItemObject() was called...");
-
-  item.name = document.getElementById("item").value;
-  item.price = document.getElementById("price").value;
-  item.quantity = document.getElementById("quantity").value;
-
-  item.total_item = item.price * item.quantity;
-  item.total_snap = item.total_item;
-
-  item.required = document.getElementById("required").checked;
-  item.snap = document.getElementById("snap-eligible").checked;
-
-  // Should be unnecessary as long as we let updateTotal keep track of total
-  // overallTotal += item.total_item;
-  if (item.snap == true) {
-    snapTotal += item.total_snap;
-    console.log(`[${item.name}] is snap-applicable`);
-  } else {
-    nonSnapTotal += item.total_item;
-    console.log(`[${item.name}] is not snap-applicable`);
-  }
 
   // Add the current item to the Dictionary, with its key as the current Map index
   clientItems.set(itemsCounter, item);
@@ -138,8 +132,8 @@ function createItemObject() {
 // SENDS ITEM TO CONSOLE SO DEV KNOWS THAT ITEM WAS SUCCESSFULLY PLACED IN DICTIONARY
 function itemToConsole(key) {
   console.log("itemToConsole() was called with key [" + key + "]");
-  let currentItem = clientItems.get(key);
-  console.log(`Calling ${currentItem} to console.`);
+  var currentItem = clientItems.get(key);
+  console.log(currentItem);
 }
 
 // UPDATES TOTAL BY RUNNING THROUGH MAP AND ADDING TOTAL OF ALL ITEMS
@@ -188,7 +182,10 @@ function openRemovePopup() {
 }
 
 // REMOVE ITEM ASSOCIATED WITH KEY FROM MAP AND TABLE
-function removeItems(key) {
+function removeItems() {
+  const key = document.getElementById("key").value;
+  console.log("The current key is " + key);
+
   console.log("removeItemsChecked() was called...");
   removeButton.classList.remove("d-none"); // show remove btn
   addButton.classList.remove("d-none"); // show add btn
@@ -198,15 +195,14 @@ function removeItems(key) {
   itemToConsole(key); // show me the item the key returns
 
   let table = document.getElementById("table"); // grab the table so we can edit it
-  let removeItem = clientItems.get(key); // this is the item we're removing
-  console.log(`Calling ${removeItem} for editing and removal.`);
-  let isGone = clientItems.delete(key); // DELETE IT -- returns true or false if it actually deleted
+  var removeItem = clientItems.get(key); // this is the item we're removing
+  var isGone = clientItems.delete(key); // DELETE IT -- returns true or false if it actually deleted
 
   console.log(`Also calling ${table} for editing and removal.`);
 
   if (isGone == true) {
     console.log(`Successfully deleted [${removeItem.name}]`);
-    table.deleteRow(key+1); // DELETE THE ROW WITH THE ITEM IN IT
+    table.deleteRow(key + 1); // DELETE THE ROW WITH THE ITEM IN IT
     console.log(`Successfully deleted row ${key}.`);
   } else {
     console.log(`Removal of item on row ${key} failed. Wrong row number?`);
@@ -229,17 +225,15 @@ function expensiveItems() {
 
     if (indexItem.price > expItems[0]) {
       expItems[0] = indexItem;
-      console.log(`${expItems[0]} is less ${indexItem.price}`);
+      console.log(`${expItems[0].price} is less than ${indexItem.price}`);
     }
   }
 
   var list_code = `${indexItem.name}: $${indexItem.price}`;
-  var list_element = document.createTextNode(list_code);
-  expenseListContainer.appendChild(list_element);
+  expenseListContainer.innerText = list_code;
 }
 
 addButton.addEventListener("click", openPopup);
 addItemButton.addEventListener("click", addItemToTable);
 removeButton.addEventListener("click", openRemovePopup);
 removeItemButton.addEventListener("click", removeItems);
-
